@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <!--    create table if not exists Customer(
+            c_id int auto_increment,
+            name varchar(100),
+            email varchar(250),
+            password varchar(250),
+            phone varchar(250),
+            address varchar(250),
+            city varchar(250),
+            primary key(c_id)
+            ); -->
+    
+    <form method="post" action="../Controller/index.php">
+    <input name="name" placeholder="Enter name" required />
+    </br>
+    <input name="email" placeholder="Enter Email abc@xyz.qwe" required />
+    </br>
+      <input type="password" name="password" placeholder="Password" required />
+    </br>
+      <input type="password" name="c_password" placeholder="Confirm Password" required />
+    </br>
+      <input name="address" placeholder="Enter Address" required />
+    </br>
+      <input name="city" placeholder="Enter City" required />
+    </br>
+      <input name="phone" placeholder="Phone 03123456789" required />
+    </br>
+    <label for="type">Choose Type : </label>
+    <select  name="type">
+      <option value="1">User</option>
+      <option value="2">Vendor</option>
+    </select>
+  </br>
+  <label for="type">Choose Role : </label>
+    <select name="role" >
+      <option value="1" >Admin</option>
+      <option value="2" >User</option>
+    </select>
+  </br>
+    <button type="submit" name="signUp_submit" >Submit</button>
+    </form>
+  </body>
+</html>
