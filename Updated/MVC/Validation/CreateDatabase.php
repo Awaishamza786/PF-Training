@@ -29,7 +29,7 @@ try {
     foreign key(p_id) references product(p_id),
     primary key(o_id)
     );");
-    $connection->query_run("insert")
+    $connection->query_run("insert");
     // $connection->conn->query("insert into orders values (0,1,2);");
     // $connection->conn->query("insert into orders values (0,1,1);");
     // $connection->conn->query("insert into orders values (0,1,2);");
