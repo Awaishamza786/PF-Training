@@ -1,0 +1,28 @@
+{
+  "dependencies": {
+    "axios": "^1.4.0",
+    "bcrypt": "^5.1.0",
+    "dotenv": "^16.1.4",
+    "events": "^3.3.0",
+    "express": "^4.18.2",
+    "express-ip": "^1.0.4",
+    "ip": "^2.0.0",
+    "jsonwebtoken": "^9.0.0",
+    "mongoose": "^7.2.4",
+    "nodemon": "^2.0.22",
+    "os": "^0.1.2",
+    "socket.io": "^4.6.2"
+  },
+  "scripts": {
+    "start": "nodemon server.js"
+  },
+  "name": "attendencecheckertask",
+  "version": "1.0.0",
+  "main": "server.js",
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@types/socket.io": "^3.0.2"
+  }
+}

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>User Activity Check</title>
+    <script src="/socket.io/socket.io.js"></script>
+  </head>
+  <body>
+    <h1>User Activity Check</h1>
+
+    <script>
+      var socket = io();
+
+      socket.on("connect", () => {
+        console.log("Connected to server");
+        socket.emit("message", "Hi");
+      });
+
+      socket.on("disconnect", () => {
+        socket.emit("message", "hello");
+      });
+      socket.on("notification", (data) => {
+        console.log('notification '+data)
+        socket.emit('response','connected awaishazma579@gmail.com')
+      });
+
+      // Handle other socket.io events as needed
+    </script>
+  </body>
+</html>
