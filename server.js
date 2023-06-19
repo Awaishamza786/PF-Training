@@ -28,12 +28,12 @@ const port = process.env.PORT || 8080;
 // const server = app.listen(port, "192.168.18.56", () => {
 //   console.log(`App start on ${port}`);
 // });
-// app.listen(port, "172.16.4.41", () => {
-//   console.log(`App start on ${port}`);
-// });
-app.listen(port, () => {
+const server =app.listen(port, "172.16.4.41", () => {
   console.log(`App start on ${port}`);
 });
+// app.listen(port, () => {
+//   console.log(`App start on ${port}`);
+// });
 
 
 //----------------------------------

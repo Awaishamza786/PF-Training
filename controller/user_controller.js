@@ -2,6 +2,7 @@ const ip_model = require("../model/ip_model");
 const user_model = require("../model/user_model");
 const session_model = require("../model/session");
 const working_model = require("../model/working");
+const online_model = require("./../model/online_user");
 // const time_model = require("../model/time_model");
 // const { showRegisteredIp } = require("./../controller/ip_controller");
 const bcrypt = require("bcrypt");
@@ -206,7 +207,10 @@ const login = async (req, res) => {
       const status = await storeSession(_sessionModel);
       if (status) {
         const token = await jwt.sign(_sessionModel.email, secretKey);
-        res.status(200).send({token,_sessionModel});
+        const online_save = online_model();
+        online_save.email = _sessionModel.email;
+        const isOnline = online_save.save({});
+        res.status(200).send({ token, isOnline, _sessionModel });
       } else res.status(200).send("Already started");
     } else if (user_verify == false) res.status(200).send("Password not match");
     else res.status(500).send("Not registered User");
@@ -240,10 +244,6 @@ async function storeWorkingTime(last_session) {
   }
   if (working_db_data == null) {
     console.log(`The time difference not exist`);
-
-    if (work.office_time > 3) work.attendance = "Present";
-    else if (work.office_time < 3) work.attendance = "ABSENT";
-    else work.attendance = "ABSENT";
     console.log(work);
     await work.save({});
 
@@ -267,6 +267,28 @@ async function storeWorkingTime(last_session) {
         { email: work.email, date: work.date },
         { $set: { virtual_time: work.virtual_time } }
       );
+    }
+    if (
+      Number(
+        working_db_data.office_time == null ? 0 : working_db_data.office_time
+      ) +
+        Number(
+          working_db_data.virtual_time == null
+            ? 0
+            : working_db_data.virtual_time
+        ) +
+        Number(work.office_time) +
+        Number(work.virtual_time) >
+      7.5
+    ) {
+      if (Number(work.office_time) + Number(working_db_data.office_time) < 3)
+        work.attendance = "ABSENT";
+      else if (
+        Number(work.office_time) + Number(working_db_data.office_time) <
+        5
+      )
+        work.attendance = "HALF DAY";
+      else work.attendance = "COMPLETE";
     }
   }
 }
@@ -309,7 +331,7 @@ const logout = async (req, res) => {
           )
         );
         console.log("last" + last_session);
-        storeWorkingTime(last_session);
+        await storeWorkingTime(last_session);
         res.status(200).send("Logout");
       }
     }

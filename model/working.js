@@ -22,7 +22,7 @@ const working = mongoose.Schema(
     
     attendance: {
       type: String,
-      required: [true, "Please add attendance"],
+      required: [false, "Please add attendance"],
     },
     
   },
