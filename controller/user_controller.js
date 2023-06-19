@@ -251,10 +251,9 @@ async function storeWorkingTime(last_session) {
   } else {
     if (last_session.location == process.env.OFFICE) {
       console.log(`db-->${working_db_data} work --->${work}`);
-      work.office_time = await (
-        Number(diffInhours) + Number(working_db_data.office_time)
-      ).toString;
-
+      work.office_time = await (Number(diffInhours) +
+        Number(working_db_data.office_time));
+      console.log("--------------->office" + work.office_time);
       await working_model.updateOne(
         { email: work.email, date: work.date },
         { $set: { office_time: work.office_time } }
@@ -268,29 +267,28 @@ async function storeWorkingTime(last_session) {
         { $set: { virtual_time: work.virtual_time } }
       );
     }
-    if (
-      Number(
-        working_db_data.office_time == null ? 0 : working_db_data.office_time
-      ) +
-        Number(
-          working_db_data.virtual_time == null
-            ? 0
-            : working_db_data.virtual_time
-        ) +
-        Number(work.office_time) +
-        Number(work.virtual_time) >
-      7.5
-    ) {
-      if (Number(work.office_time) + Number(working_db_data.office_time) < 3)
-        work.attendance = "ABSENT";
-      else if (
-        Number(work.office_time) + Number(working_db_data.office_time) <
-        5
-      )
-        work.attendance = "HALF DAY";
-      else work.attendance = "COMPLETE";
-    }
   }
+  if (
+    Number(
+      working_db_data.office_time == null ? 0 : working_db_data.office_time
+    ) +
+      Number(
+        working_db_data.virtual_time == null ? 0 : working_db_data.virtual_time
+      ) +
+      Number(work.office_time) +
+      Number(work.virtual_time) >
+    7.5
+  ) {
+    if (Number(work.office_time) + Number(working_db_data.office_time) < 3)
+      work.attendance = "ABSENT";
+    else if (Number(work.office_time) + Number(working_db_data.office_time) < 5)
+      work.attendance = "HALF DAY";
+    else work.attendance = "COMPLETE";
+  } else
+    await working_model.updateOne(
+      { email: work.email, date: work.date },
+      { $set: { attendance: "ABSENT" } }
+    );
 }
 
 const logout = async (req, res) => {
